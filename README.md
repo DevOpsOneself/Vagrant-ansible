@@ -7,20 +7,19 @@ Vagrant-ansible
         inventories   
             hosts   # Ansible 主机信息配置文件
 
-        playbooks    # Ansible 主目录
-            roles   #Ansible roles主目录
-                role   #Ansible role
-                    files   #role依赖文件
+        playbooks                   # Ansible 主目录
+            roles                   #Ansible roles主目录
+                role                #Ansible role
+                    files           #role依赖文件
+                    tasks           #role tasks
                         main.yml
-                    tasks   #role tasks
+                    vars            #role 变量
                         main.yml
-                    vars    #role 变量
-                        main.yml
-            xxx.yml   #各节点 Ansible配置文件
+            xxx.yml                 #各节点 Ansible配置文件
 
-        nodes.yaml   #全部节点 Vagrant 配置文件
+        nodes.yaml                  #全部节点 Vagrant 配置文件
 
-        Vagrantfile**#Vagrant 主文件
+        Vagrantfile                 #Vagrant 主文件
 
 安装包路径
 -
