@@ -1,20 +1,54 @@
----
-- name: "cp jdk1.8 to each machine"
-  copy: "src={{ item.src }} dest={{ item.dest }}"
+- name: Include jdk 1.8  variables.
+  include_vars: "jdk1.8.yml"
+  when: java_version == '1.8'
+
+- name: Check if java local file is already configured.
+  stat: path={{ java_file_path }}
+  #connection: local
+  register: java_file_result
+
+- name: Create software directory.
+  file: path={{ software_files_path }} state=directory
+  #connection: local
+  when: not java_file_result.stat.exists
+  
+- name: Download java file.
+  copy: "src={{ item.src }} dest={{ item.dest }} mode=0777"
   with_items:
-    - src: "../files/jdk-8u181-linux-x64.tar.gz"
-      dest: "/tmp/"
-    - src: "../files/java.sh"
-      dest: "/etc/profile.d"
-- name: "mkdir for java"
-  command: >
-    mkdir -p /opt/java
-- name: "unpack the jdk to /opt/java"
-  command: >
-    tar -C /opt/java -zxvf /tmp/jdk-8u181-linux-x64.tar.gz
-- name: "update alternatives for java"
-  command: >
-    update-alternatives --install /usr/bin/java java /opt/java/jdk1.8.0_181/bin/java 300
-- name: "update alternatives for javac"
-  command: >
-    update-alternatives --install /usr/bin/javac javac /opt/java/jdk1.8.0_181/bin/javac 300
+    - src: "{{java_file_url}}"
+      dest: "{{software_files_path}}"
+  #connection: local
+  when: not java_file_result.stat.exists
+
+- name: Confirm the existence of the installation directory.
+  file: path={{ java_install_path }} state=directory
+
+- name: Copy java file to agent.
+  unarchive:
+    copy: no
+    src: "{{ java_file_path }}"
+    dest: "{{ software_install_path }}"
+    #creates: "{{ software_install_path }}"
+    #owner: "{{ ansible_user_gecos }}"
+ 
+- name: Check if java remote soft link  is already configured.
+  stat: path={{ java_home }}
+  register: java_soft_link_result
+
+- name: Create java home dir.
+  file: dest=/usr/java state=directory
+  when: not java_soft_link_result.stat.exists
+
+- name: Create java dir soft link.
+  file: "src={{ java_install_path }} dest={{ java_home }} state=link"
+  when: not java_soft_link_result.stat.exists
+
+# Environment setup.
+- name: Set JAVA_HOME if configured.
+  template:
+    src: java_home.sh.j2
+    dest: /etc/profile.d/java_home.sh
+    mode: 0755
+  when: java_home !=''
+
+- debug: var=result.stderr
