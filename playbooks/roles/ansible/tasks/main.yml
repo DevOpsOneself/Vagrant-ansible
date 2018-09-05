@@ -1,0 +1,14 @@
+---
+- name: ensure ansible of packages installed
+  file:
+    name: /etc/ansible
+  register: ansible
+- name: Install Anisble using yum command
+  yum:
+    name: "{{ansible_package_url}}"
+    state: present
+  when: ansible is failed
+- name: Install git
+  yum:
+    name: git
+    state: present

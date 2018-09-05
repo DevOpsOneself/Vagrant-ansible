@@ -33,3 +33,8 @@ boxes:
     base_box: CentOS7
     ip: 172.28.128.9
     ansible_playbook: playbooks/rabbitmq.yml
+  -
+    output_box: ansible
+    base_box: CentOS7
+    ip: 172.28.128.10
+    ansible_playbook: playbooks/ansible.yml
