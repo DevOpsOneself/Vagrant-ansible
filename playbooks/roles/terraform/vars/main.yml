@@ -1,0 +1,5 @@
+terraform_download_url: "https://releases.hashicorp.com/terraform/0.11.8/terraform_0.11.8_linux_amd64.zip"
+software_files_path: "/tmp"
+terraform_package_url: "{{software_files_path}}/{{terraform_package}}"
+terraform_package: "terraform_0.11.8_linux_amd64.zip"
+

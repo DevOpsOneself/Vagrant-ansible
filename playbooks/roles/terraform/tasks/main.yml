@@ -1,0 +1,29 @@
+---
+- name: Ensure the package directiry exist
+  stat: path={{terraform_package_url}}
+  register: terraform
+- name: Download Terraform
+  get_url: url={{ terraform_download_url }} dest={{ software_files_path }}
+  when: not terraform.stat.exists
+- name: Ensure the package directiry exist
+  become_user: root
+  become: true
+  file:
+    path: /etc/terraform
+    state: directory
+- name: unzip
+  become_user: root
+  become: true
+  unarchive:
+    copy: no
+    src: "{{terraform_package_url}}"
+    dest: "/etc/terraform"
+- name: ln terraform to /usr/bin
+  become_user: root
+  become: true
+  file:
+    src: /etc/terraform/terraform
+    dest: /usr/bin/terraform
+    owner: root
+    group: root
+    state: link
