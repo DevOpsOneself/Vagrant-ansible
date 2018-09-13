@@ -20,3 +20,8 @@
 - name: Install go-server
   command: >
     yum install -y go-server
+- name: "Start go-server"
+  service:
+    name: go-server
+    state: started
+    enabled: yes
