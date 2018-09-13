@@ -1,7 +1,5 @@
 ---
 - hosts: gocd
-  become_user: root
-  become: true
   roles:
     - common
     - gocd-server

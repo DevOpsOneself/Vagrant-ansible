@@ -3,24 +3,44 @@
     path: /etc/yum.repos.d/gocd.repo
   register: yumrepo
 - name: Download yum.repo
+  become_user: root
+  become: true
   get_url:
     url: https://download.gocd.org/gocd.repo
     dest: /etc/yum.repos.d/gocd.repo
     mode: 0644
   when: not yumrepo.stat.exists
 - name: Install Openjdk-1.8
+  become_user: root
+  become: true
   yum:
     name: java-1.8.0-openjdk
     state: present
 - name: Create directory /var/go
+  become_user: root
+  become: true
   file:
     path: /var/go
     state: directory
     mode: 0755
 - name: Install go-agent
-  command: >
-    yum install -y go-agent
+  become_user: root
+  become: true
+  yum:
+    name: go-agent
+    state: present
+- name: Config the go-server
+  become_user: root
+  become: true
+  template:
+    src: go-agent.j2
+    dest: /etc/default/go-agent
+    mode: 0640
+    owner: root
+    group: go
 - name: "Start go-agent"
+  become_user: root
+  become: true
   service:
     name: go-agent
     state: started
