@@ -6,3 +6,6 @@ rabbitmq ansible_host=172.28.128.9
 
 [master]
 ansible ansible_host=172.28.128.10
+
+[DevOps]
+gocd ansible_host=172.28.128.100

@@ -38,3 +38,8 @@ boxes:
     base_box: centos/7
     ip: 172.28.128.10
     ansible_playbook: playbooks/ansible.yml
+  -
+    output_box: gocd
+    base_box: CentOS7
+    ip: 172.28.128.100
+    ansible_playbook: playbooks/gocd.yml
