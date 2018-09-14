@@ -1,5 +1,5 @@
 #! /bin/sh
-export JAVA_HOME="/opt/java/jdk1.8.0_181"
+export JAVA_HOME="/usr/java/jdk1.8.0_181"
  
 startcmd='/opt/app/wso2ei-6.2.0/bin/integrator.sh start> /dev/null &'
 restartcmd='/opt/app/wso2ei-6.2.0/bin/integrator.sh restart> /dev/null &'

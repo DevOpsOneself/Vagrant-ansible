@@ -1,0 +1,6 @@
+---
+- hosts: gocd
+  roles:
+    - common
+    - gocd-server
+    - gocd-agent

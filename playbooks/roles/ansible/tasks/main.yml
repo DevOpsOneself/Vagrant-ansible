@@ -1,0 +1,11 @@
+---
+# - name: ensure ansible of packages installed
+#   stat: path= "/etc/ansible"
+#   register: ansible
+- name: Install Anisble using yum command
+  become_user: root
+  become: true
+  yum:
+    name: "{{ansible_package_url}}"
+    state: present
+  # when: ansible is failed
