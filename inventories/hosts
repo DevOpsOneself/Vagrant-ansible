@@ -9,3 +9,4 @@ ansible ansible_host=172.28.128.10
 
 [DevOps]
 gocd ansible_host=172.28.128.100
+Jenkins ansible_host=172.28.128.101

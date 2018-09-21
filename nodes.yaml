@@ -43,3 +43,8 @@ boxes:
     base_box: CentOS7
     ip: 172.28.128.100
     ansible_playbook: playbooks/gocd.yml
+  -
+    output_box: Jenkins
+    base_box: CentOS7
+    ip: 172.28.128.101
+    ansible_playbook: playbooks/Jenkins.yml
