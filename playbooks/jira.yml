@@ -1,0 +1,5 @@
+---
+- hosts: jira
+  roles:
+    - docker
+    - docker-jira

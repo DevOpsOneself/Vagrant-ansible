@@ -48,3 +48,8 @@ boxes:
     base_box: CentOS7
     ip: 172.28.128.101
     ansible_playbook: playbooks/Jenkins.yml
+  -
+    output_box: jira
+    base_box: CentOS7
+    ip: 172.28.128.201
+    ansible_playbook: playbooks/jira.yml

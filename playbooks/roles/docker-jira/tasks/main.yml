@@ -1,0 +1,60 @@
+---
+
+- name: Create Docker config directory.
+  become_user: root
+  become: true
+  file: path=/data/jira state=directory mode=0777
+
+# - name: Create Docker config directory.
+#   become_user: root
+#   become: true
+#   file: path=/var/atlassian/jira state=directory mode=0777
+
+# - name: pull jira image from dockerhub
+#   become_user: root
+#   become: true
+#   command: >
+#     docker run -v /data/jira:/var/atlassian/jira --name="jira" -d -p 8080:8080 cptactionhank/atlassian-jira-software
+
+- name: 'install EPEL Repository'
+  become_user: root
+  become: true
+  yum:
+    name: epel-release
+    state: present
+
+- name: 'Install pip'
+  become_user: root
+  become: true
+  yum:
+    name: python-pip
+    state: present
+
+- name: 'Install docker-py'
+  become_user: root
+  become: true
+  pip:
+    name: docker-py
+    state: present
+
+- name: Create a data container
+  become_user: root
+  become: true
+  docker_container:
+    name: mydata
+    image: busybox
+    volumes:
+      - /data
+
+- name: application container
+  become_user: root
+  become: true
+  docker_container:
+    name: jira
+    image: cptactionhank/atlassian-jira-software
+    state: started
+    restart: yes
+    ports:
+    - "8080:8080"
+    volumes:
+    - "/data/jira:/var/atlassian/jira:rw"
